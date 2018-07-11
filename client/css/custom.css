@@ -1,0 +1,43 @@
+html{
+  overflow: auto;
+}
+
+body{
+  width: 650px;
+  height: 600px;
+  padding-top: 10px;
+}
+
+#export-csv{
+  display: block;
+  width: 100%;
+  text-align: right;
+}
+
+.float-left{
+  float: left;
+}
+
+.float-right{
+  float: right;
+}
+
+.spin-loading{
+  padding-top: 80px;
+  margin-bottom: -100px;
+  height: 300px;
+}
+
+.spin-loading > * {
+  display: block;
+  margin: 0 auto;
+}
+
+.spin-loading > span {
+  margin-top: -10px;
+  width: 60px;
+}
+
+.spin-loading > img {
+  width: 100px;
+}
