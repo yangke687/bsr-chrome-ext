@@ -1,5 +1,5 @@
-
-const baseUrl = 'http://localhost/bsr-chrome-ext/server/';
+const baseUrl = 'http://45.76.106.184:81/bsr-chrome-ext/server/';
+// const baseUrl = 'http://localhost/bsr-chrome-ext/server/';
 
 const composeTable = (data, domain) => {
   let tpl = '';
