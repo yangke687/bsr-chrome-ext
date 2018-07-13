@@ -5,9 +5,8 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 });
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
-  const url = 'https://www.amazon.com/dp';
-  const { asins } = request;
-  callAllFetch(asins, url).then(res => {
+  const { asins, baseUrl } = request;
+  callAllFetch(asins, baseUrl).then(res => {
     sendResponse({ data: res });
   });
   return true;

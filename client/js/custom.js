@@ -66,8 +66,24 @@ $(document).ready(function(){
   })
 });
 
+function getBaseUrl(key) {
+  const urls = {
+    US: 'http://www.amazon.com/dp',
+    Japan: 'https://www.amazon.co.jp/dp',
+    UK: 'https://www.amazon.co.uk/dp',
+    Canada: 'https://www.amazon.ca/dp',
+    Mexico: 'https://www.amazon.com.mx/dp',
+    Germany: 'https://www.amazon.de/dp',
+    France: 'https://www.amazon.fr/dp',
+    Spain: 'https://www.amazon.es/dp',
+    Australia: 'https://www.amazon.com.au/dp',
+    India: 'https://www.amazon.in/dp'
+  };
+  return urls.hasOwnProperty(key) ? urls[key] : urls.US;
+}
+
 function sendMessageToBackground(asins, domain) {
-	chrome.runtime.sendMessage({ asins, domain }, (res) => {
+	chrome.runtime.sendMessage({ asins, baseUrl: getBaseUrl(domain) }, (res) => {
     const table = composeTable(res.data, domain);
     const csv = composeCSV(res.data, domain);
     loadingEnd(table, csv);
