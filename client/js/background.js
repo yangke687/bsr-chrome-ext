@@ -39,7 +39,7 @@ const callParse = (text, asin) => {
     $(els).each((i, el) => {
       /** rank */
       let rank = $(el).find('.zg_hrsr_rank').text();
-      rank = rank ? rank.replace(/[^0-9]/, '') : null;
+      rank = rank ? rank.replace(/[^0-9]+/, '') : null;
       /** categories */
       let cats = [];
       let links = $(el).find('a');
