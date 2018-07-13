@@ -1,23 +1,18 @@
-const baseUrl = 'http://45.76.106.184:81/bsr-chrome-ext/server/';
-// const baseUrl = 'http://localhost/bsr-chrome-ext/server/';
-
 const composeTable = (data, domain) => {
   let tpl = '';
   for(const id in data) {
-    const asins = data[id];
-    if(Array.isArray(asins)) {
-      asins.map(asin => {
-        const { rank, cats, } = asin;
-        tpl += `
-          <tr>
-            <td>${id}</td>
-            <td>${domain}</td>
-            <td>${rank}</td>
-            <td>${cats.join(' > ')}</td>
-          </tr>
-        `;
-      })
-    }
+    const { asin, ranks } = data[id];
+    ranks.map( rankItem => {
+      const { rank, cats } = rankItem;
+      tpl += `
+        <tr>
+          <td>${asin}</td>
+          <td>${domain}</td>
+          <td>${rank}</td>
+          <td>${cats.join(' > ')}</td>
+        </tr>
+      `;
+    })
   }
   return tpl;
 }
@@ -25,13 +20,11 @@ const composeTable = (data, domain) => {
 const composeCSV = (data, domain) => {
   let str = 'ASIN,Domain,Rank,Categories\n';
   for(const id in data) {
-    const asins = data[id];
-    if(Array.isArray(asins)) {
-      asins.map(asin => {
-        const { rank, cats } = asin;
-        str += `${id},${domain},${rank},${cats.join(' > ')}\n`;
-      })
-    }
+    const { asin, ranks } = data[id];
+    ranks.map(rankItem => {
+      const { rank, cats } = rankItem;
+      str += `${asin},${domain},${rank},${cats.join(' > ')}\n`;
+    })
   }
   return encodeURIComponent(str);
 }
@@ -52,54 +45,31 @@ const loadingEnd = (table, csv) => {
   }
 }
 
-const request = (url, domain) => {
-  loadingStart();
-  $.get(url, (res) => {
-    const table = composeTable(res.data, domain);
-    const csv = composeCSV(res.data, domain);
-    loadingEnd(table, csv);
-  }, 'json');
-}
-
 const init = () => {
   $('table').hide();
   $('.spin-loading').hide();
   $('a#export-csv').hide();
 }
 
-const textInputTpl = `
-  <div class="row">
-    <div class="seven columns">
-      <input class="u-full-width asins" placeholder="eg: B00DGN23UI" type="text" />
-    </div>
-    <div class="five columns">
-      <button class="button float float-right remove">Remove</button>
-    </div>
-  </div>
-`;
-
 $(document).ready(function(){
   init();
-  $('#append-btn').click(() => {
-    $('#asins-wrapper').append(textInputTpl);
-    /** bind events listener on dynamic button */
-    $(document).on("click", "button.remove" , function() {
-        $(this).parent().parent().remove();
-    });
-    /** stop page reloading */
-    return false;
-  });
 
   $('#start-btn').click(() => {
-    const asins = [];
-    $('input.asins').each((i, el) => {
-      if($(el).val()) {
-        asins.push($(el).val());
-      }
-    });
+    let asins = $('input#asins').val();
     const domain = $('select#amazon-domain').val();
-    const url = `${baseUrl}?domain=${domain}&asins=${asins.join(',')}`;
-    request(url, domain);
+    if(asins) {
+      asins = asins.split(',');
+      loadingStart();
+      sendMessageToBackground(asins, domain);
+    }
     return false;
   })
 });
+
+function sendMessageToBackground(asins, domain) {
+	chrome.runtime.sendMessage({ asins, domain }, (res) => {
+    const table = composeTable(res.data, domain);
+    const csv = composeCSV(res.data, domain);
+    loadingEnd(table, csv);
+  });
+}

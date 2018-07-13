@@ -9,6 +9,35 @@
 </head>
 <body>
   <div class="container">
+    <form>
+      <div id="asins-wrapper" class="row">
+        <div class="row">
+          <div class="ten columns">
+            <label>ASINs</label>
+            <input type="text" id="asins" class="u-full-width" placeholder="eg: B00DGN23UI,B0721JS9ZW,B00DGN23UI... " />
+          </div>
+          <div class="two columns">
+            <label>Amazon Site</label>
+            <select class="u-full-width" id="amazon-domain">
+              <option value="US" selected>US</option>
+              <option value="Canada">Canada</option>
+              <option value="Mexico">Mexico</option>
+              <option value="UK">UK</option>
+              <option value="Germany">Germany</option>
+              <option value="France">France</option>
+              <option value="Spain">Spain</option>
+              <option value="Australia">Australia</option>
+              <option value="Japan">Japan</option>
+              <option value="India">India</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <button id="start-btn" class="button button-primary">Start Scraping</button>
+      </div>
+    </form>
+
     <div class="table-wrapper">
       <!-- loading -->
       <div class="spin-loading">
@@ -27,39 +56,10 @@
         </thead>
         <tbody><!-- Dynamic --></tbody>
       </table>
-      <a id="export-csv" class="float-right clearfix" download="downlaod.csv" href="#">Export to CSV</a>
+      <a id="export-csv" class="button" download="downlaod.csv" href="#">Export to CSV</a>
     </div>
-    <form>
-      <div id="asins-wrapper" class="row">
-        <div class="row">
-          <div class="six columns">
-            <label>ASINs</label>
-            <input type="text" class="u-full-width asins" placeholder="eg: B00DGN23UI" />
-          </div>
-          <div class="six columns">
-            <label>Amazon Site</label>
-            <select class="u-full-width" id="amazon-domain">
-              <option value="US" selected>US</option>
-              <option value="Canada">Canada</option>
-              <option value="Mexico">Mexico</option>
-              <option value="UK">UK</option>
-              <option value="Germany">Germany</option>
-              <option value="France">France</option>
-              <option value="Spain">Spain</option>
-              <option value="Australia">Australia</option>
-              <option value="Japan">Japan</option>
-              <option value="India">India</option>
-            </select>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <button id="append-btn" class="button">Append</button>
-        <button id="start-btn" class="button button-primary float-right">Start Scraping</button>
-      </div>
-    </form>
   </div>
-  <script type="text/javascript" src="js/jquery-latest.js"></script>
+  <script src="js/jquery-latest.js"></script>
   <script src="js/custom.js"></script>
 </body>
 </html>

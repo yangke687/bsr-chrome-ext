@@ -3,23 +3,7 @@ html{
 }
 
 body{
-  width: 650px;
-  height: 600px;
   padding-top: 10px;
-}
-
-#export-csv{
-  display: block;
-  width: 100%;
-  text-align: right;
-}
-
-.float-left{
-  float: left;
-}
-
-.float-right{
-  float: right;
 }
 
 .spin-loading{

@@ -13,9 +13,10 @@
     "default_icon": "icons/icon-16.png"
   },
   "background":{
-    "scripts": ["js/background.js"]
+    "scripts": ["js/jquery-latest.js", "js/background.js"]
   },
   "permissions": [
-    "tabs"
+    "tabs",
+    "*://*.amazon.com/*"
   ]
 }
