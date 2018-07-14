@@ -27,6 +27,8 @@ const callFetch = async (url) => {
     return callParse(htmlText, asin);
   } catch (err) {
     console.error(err);
+  } finally {
+    chrome.runtime.sendMessage({ type: 'bsr-scrape', success: true }, () => null);
   }
 }
 
@@ -55,4 +57,10 @@ const callParse = (text, asin) => {
   }
   return obj;
 }
+
+$(document).ready(function(){
+  console.log(
+    $('#completed').length
+  );
+});
 

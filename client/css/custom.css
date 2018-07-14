@@ -25,3 +25,7 @@ body{
 .spin-loading > img {
   width: 100px;
 }
+
+.spin-loading > div {
+  text-align: center;
+}

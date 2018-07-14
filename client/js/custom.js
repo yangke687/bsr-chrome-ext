@@ -1,6 +1,33 @@
+/**
+ * amazon.com
+ *  B01EG68XSO,B0721JS9ZW,B00DGN23UI,B079Z33Y8X,
+ *  B07B725M81,B07D1MC47L,B07FB6VRYH,B0180FYJTY,
+ *  B07BNXPG3X,B07BC6R1M4,B0787G22NR,B00374F5CY,
+ *  B00AGG3MNU,B00008RH16,B06WWPZP3R,B012TPRX6W,
+ *  1935072137,B00FEFQSYS,B000HBILB2,B073PX8WN7
+ * amazon.co.jp
+ *  B0742J781D,B07F54P3KD
+ * amazon.co.uk
+ *  B0757Z2F3P,B073Q6L13P,B073T1Z5M8
+ * amazon.ca
+ *  B00ABA0ZOA,B01N1IGKE4
+ * amazon.com.mx
+ *  B000EN82EY,B073ZKFNBZ
+ * amazon.de
+ *  B01M0W7NIP,B000JWJDXY
+ * amazon.fr
+ *  B076P9S39Z,B075L6CCFZ
+ * amazon.es
+ *  B001HN6EF4,B073T22LYZ
+ * amazon.com.au
+ *  B00UCY3HX6,B0721MP41Q
+ * amazon.in
+ *  B00MEDZMJ0,B00SIWUU2A
+ */
 const composeTable = (data, domain) => {
   let tpl = '';
   for(const id in data) {
+    if(!data[id]) return;
     const { asin, ranks } = data[id];
     ranks.map( rankItem => {
       const { rank, cats } = rankItem;
@@ -20,6 +47,7 @@ const composeTable = (data, domain) => {
 const composeCSV = (data, domain) => {
   let str = 'ASIN,Domain,Rank,Categories\n';
   for(const id in data) {
+    if(!data[id]) return;
     const { asin, ranks } = data[id];
     ranks.map(rankItem => {
       const { rank, cats } = rankItem;
@@ -59,6 +87,8 @@ $(document).ready(function(){
     const domain = $('select#amazon-domain').val();
     if(asins) {
       asins = asins.split(',');
+      updateCompletedTasksCount(0);
+      updateTotalTasksCount(asins.length);
       loadingStart();
       sendMessageToBackground(asins, domain);
     }
@@ -66,7 +96,7 @@ $(document).ready(function(){
   })
 });
 
-function getBaseUrl(key) {
+const getBaseUrl = (key) => {
   const urls = {
     US: 'http://www.amazon.com/dp',
     Japan: 'https://www.amazon.co.jp/dp',
@@ -82,10 +112,30 @@ function getBaseUrl(key) {
   return urls.hasOwnProperty(key) ? urls[key] : urls.US;
 }
 
-function sendMessageToBackground(asins, domain) {
+const sendMessageToBackground = (asins, domain) => {
 	chrome.runtime.sendMessage({ asins, baseUrl: getBaseUrl(domain) }, (res) => {
     const table = composeTable(res.data, domain);
     const csv = composeCSV(res.data, domain);
     loadingEnd(table, csv);
   });
 }
+
+const getCompletedTasksCount = () => {
+  let count = $('#completed').text();
+  return parseInt(count) ? parseInt(count) : 0;
+}
+
+const updateCompletedTasksCount = (val) => {
+  $('#completed').html(val);
+}
+
+const updateTotalTasksCount = (val) => {
+  $('#total').html(val);
+}
+
+chrome.runtime.onMessage.addListener((msg) => {
+  if(msg.type === 'bsr-scrape' && msg.success) {
+    let count = getCompletedTasksCount();
+    updateCompletedTasksCount(count+1);
+  }
+});
