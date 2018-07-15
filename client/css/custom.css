@@ -18,6 +18,11 @@ body{
   display: flex;
   align-items: center;
 }
+
+#main{
+  margin-top: 60px;
+}
+
 .spin-loading{
   padding-top: 80px;
   margin-bottom: -100px;

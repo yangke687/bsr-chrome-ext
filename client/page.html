@@ -22,17 +22,19 @@
     </div>
   </nav>
 
-  <div class="container">
+  <div class="container" id="main">
     <form>
       <div id="asins-wrapper" class="row">
-        <div class="row">
-          <div class="ten columns">
-            <label>ASINs</label>
-            <input type="text" id="asins" class="u-full-width" placeholder="eg: B00DGN23UI,B0721JS9ZW,B00DGN23UI... " />
+        <div class="col-xs-8">
+          <div class="form-group">
+              <label class="control-label">ASINs</label>
+              <input type="text" id="asins" class="form-control" placeholder="eg: B00DGN23UI,B0721JS9ZW,B00DGN23UI... " />
           </div>
-          <div class="two columns">
-            <label>Amazon Site</label>
-            <select class="u-full-width" id="amazon-domain">
+        </div>
+        <div class="col-xs-2">
+          <div class="form-group">
+            <label class="control-label">Amazon Site</label>
+            <select class="form-control" id="amazon-domain">
               <option value="US" selected>US</option>
               <option value="Canada">Canada</option>
               <option value="Mexico">Mexico</option>
@@ -46,9 +48,10 @@
             </select>
           </div>
         </div>
-      </div>
-      <div class="row">
-        <button id="start-btn" class="button button-primary">Start Scraping</button>
+        <div class="col-xs-2">
+          <label class="control-label" style="visibility: hidden;">Place Holder</label>
+          <button id="start-btn" class="btn btn-primary form-control">Start</button>
+        </div>
       </div>
     </form>
 
@@ -66,7 +69,7 @@
         </div>
       </div>
       <!-- table -->
-      <a id="export-csv" class="button" download="downlaod.csv" href="#">Export to CSV</a>
+      <a id="export-csv" class="btn btn-default" download="downlaod.csv" href="#">Export to CSV</a>
       <table class="u-full-width">
         <thead>
           <tr>

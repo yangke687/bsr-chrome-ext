@@ -143,8 +143,8 @@ chrome.runtime.onMessage.addListener((msg) => {
 $(document).ready(function(){
   /** loading manifest settings */
   $.getJSON(chrome.extension.getURL('../manifest.json'), function(settings) {
-    const version = settings.version || '1.0.0';
-    const title = settings.name || 'Amazon Best Sellers Ranking Scrapper'
+    const version = settings.version || '';
+    const title = settings.name || '';
     $('#footer-version').html(version);
     $('#header-title').html(title);
   });
