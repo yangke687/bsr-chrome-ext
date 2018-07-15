@@ -156,4 +156,6 @@ $(document).ready(function(){
     $('#footer-version').html(version);
     $('#header-title').html(title);
   });
+  /** insert flags into domain dropdown menu */
+  $("select#amazon-domain").selectBoxIt();
 });

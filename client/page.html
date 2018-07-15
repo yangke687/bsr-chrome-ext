@@ -6,6 +6,7 @@
   <link rel="stylesheet" href="css/normalize.css" />
   <link rel="stylesheet" href="css/bootstrap.min.css" />
   <link rel="stylesheet" href="css/dataTables-bootstrap.min.css" />
+  <link rel="stylesheet" href="css/jquery-selectBoxit.css" />
   <link rel="stylesheet" href="css/custom.css" />
 </head>
 <body>
@@ -35,23 +36,23 @@
         <div class="col-xs-2">
           <div class="form-group">
             <label class="control-label">Amazon Site</label>
-            <select class="form-control" id="amazon-domain">
-              <option value="US" selected>US</option>
-              <option value="Canada">Canada</option>
-              <option value="Mexico">Mexico</option>
-              <option value="UK">UK</option>
-              <option value="Germany">Germany</option>
-              <option value="France">France</option>
-              <option value="Spain">Spain</option>
-              <option value="Australia">Australia</option>
-              <option value="Japan">Japan</option>
-              <option value="India">India</option>
+            <select class="form-control" id="amazon-domain" style="display:none">
+              <option value="US" data-iconurl="flags/4x3/us.svg" selected>US</option>
+              <option value="Canada" data-iconurl="flags/4x3/ca.svg">Canada</option>
+              <option value="Mexico" data-iconurl="flags/4x3/mx.svg">Mexico</option>
+              <option value="UK" data-iconurl="flags/4x3/gb.svg">UK</option>
+              <option value="Germany" data-iconurl="flags/4x3/de.svg">Germany</option>
+              <option value="France" data-iconurl="flags/4x3/fr.svg">France</option>
+              <option value="Spain" data-iconurl="flags/4x3/es.svg">Spain</option>
+              <option value="Australia" data-iconurl="flags/4x3/au.svg">Australia</option>
+              <option value="Japan" data-iconurl="flags/4x3/jp.svg">Japan</option>
+              <option value="India" data-iconurl="flags/4x3/in.svg">India</option>
             </select>
           </div>
         </div>
         <div class="col-xs-2">
           <label class="control-label" style="visibility: hidden;">Place Holder</label>
-          <button id="start-btn" class="btn btn-primary" style="width: 100%;">Start</button>
+          <a id="start-btn" class="btn btn-primary" style="width: 100%;">Start</a>
         </div>
         <div class="col-xs-2">
           <label class="control-label" style="visibility: hidden;">Place Holder</label>
@@ -62,7 +63,7 @@
 
     <div class="table-wrapper">
       <!-- loading -->
-      <div class="spin-loading">
+      <div class="spin-loading" style="display: none;">
         <img src="./icons/blocks.gif" />
         <div>
           <span>ASIN</span>
@@ -74,7 +75,7 @@
         </div>
       </div>
       <!-- table -->
-      <table class="table table-striped" style="width: 100%;">
+      <table class="table table-striped" style="display:none; width: 100%;">
         <thead>
           <tr>
             <th>ASIN</th>
@@ -97,8 +98,10 @@
   </footer>
 
   <script src="js/jquery-latest.js"></script>
+  <script src="js/jquery-ui.min.js"></script>
   <script src="js/jquery-dataTables.min.js"></script>
   <script src="js/dataTables-bootstrap.js"></script>
+  <script src="js/jquery-selectBoxit.js"></script>
   <script src="js/custom.js"></script>
 </body>
 </html>
