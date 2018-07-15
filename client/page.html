@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="css/normalize.css" />
   <link rel="stylesheet" href="css/bootstrap.min.css" />
+  <link rel="stylesheet" href="css/dataTables-bootstrap.min.css" />
   <link rel="stylesheet" href="css/custom.css" />
 </head>
 <body>
@@ -17,7 +18,7 @@
         </a>
       </div>
       <div class="collapse navbar-collapse">
-        <p id="header-title" class="navbar-text no-margin-left">Amazon Best Sellers Rank Scrapper</p>
+        <p id="header-title" class="navbar-text no-margin-left"></p>
       </div>
     </div>
   </nav>
@@ -25,7 +26,7 @@
   <div class="container" id="main">
     <form>
       <div id="asins-wrapper" class="row">
-        <div class="col-xs-8">
+        <div class="col-xs-6">
           <div class="form-group">
               <label class="control-label">ASINs</label>
               <input type="text" id="asins" class="form-control" placeholder="eg: B00DGN23UI,B0721JS9ZW,B00DGN23UI... " />
@@ -50,7 +51,11 @@
         </div>
         <div class="col-xs-2">
           <label class="control-label" style="visibility: hidden;">Place Holder</label>
-          <button id="start-btn" class="btn btn-primary form-control">Start</button>
+          <button id="start-btn" class="btn btn-primary" style="width: 100%;">Start</button>
+        </div>
+        <div class="col-xs-2">
+          <label class="control-label" style="visibility: hidden;">Place Holder</label>
+          <a id="export-csv" class="btn btn-default pull-right" href="#">Export to CSV</a>
         </div>
       </div>
     </form>
@@ -69,8 +74,7 @@
         </div>
       </div>
       <!-- table -->
-      <a id="export-csv" class="btn btn-default" download="downlaod.csv" href="#">Export to CSV</a>
-      <table class="u-full-width">
+      <table class="table table-striped" style="width: 100%;">
         <thead>
           <tr>
             <th>ASIN</th>
@@ -93,6 +97,8 @@
   </footer>
 
   <script src="js/jquery-latest.js"></script>
+  <script src="js/jquery-dataTables.min.js"></script>
+  <script src="js/dataTables-bootstrap.js"></script>
   <script src="js/custom.js"></script>
 </body>
 </html>

@@ -47,6 +47,10 @@ body{
   text-align: center;
 }
 
+.table-wrapper {
+  margin-top: 20px;
+}
+
 .table-wrapper>.button {
   float: right;
 }

@@ -59,24 +59,32 @@ const composeCSV = (data, domain) => {
 
 const loadingStart = () => {
   $('.spin-loading').show();
-  $('a#export-csv').hide();
+  $('a#export-csv')
+    .removeAttr('download')
+    .attr('href','#')
+    .attr('disabled','disabled');
   $('table').hide().children('tbody').html('');
 }
 
 const loadingEnd = (table, csv) => {
   $('.spin-loading').hide();
   $('table').show().children('tbody').html(table);
+  $('table').DataTable();
   if(csv) {
     $('a#export-csv')
-      .attr('href', `data:text/csv;charset=utf-8,${csv}`)
-      .show();
+      .removeAttr('disabled')
+      .attr('download','download.csv')
+      .attr('href', `data:text/csv;charset=utf-8,${csv}`);
   }
 }
 
 const init = () => {
   $('table').hide();
   $('.spin-loading').hide();
-  $('a#export-csv').hide();
+  $('a#export-csv')
+    .removeAttr('download')
+    .attr('href','#')
+    .attr('disabled', 'disabled');
 }
 
 $(document).ready(function(){
