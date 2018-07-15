@@ -4,10 +4,24 @@
   <title>Amazon BSR</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="css/normalize.css" />
-  <link rel="stylesheet" href="css/skeleton.css" />
+  <link rel="stylesheet" href="css/bootstrap.min.css" />
   <link rel="stylesheet" href="css/custom.css" />
 </head>
 <body>
+
+  <nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">
+          <img src="icons/icon-24.png" />
+        </a>
+      </div>
+      <div class="collapse navbar-collapse">
+        <p id="header-title" class="navbar-text no-margin-left">Amazon Best Sellers Rank Scrapper</p>
+      </div>
+    </div>
+  </nav>
+
   <div class="container">
     <form>
       <div id="asins-wrapper" class="row">
@@ -66,7 +80,18 @@
       </table>
     </div>
   </div>
+
+  <footer class="footer navbar navbar-fixed-bottom ">
+    <div class="container">
+      <div class="align-centered">
+        Version: <span id="footer-version"></span>
+      </div>
+    </div>
+  </footer>
+
   <script src="js/jquery-latest.js"></script>
   <script src="js/custom.js"></script>
 </body>
 </html>
+
+

@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
-  "name": "Amazon BSR formatter",
-  "version": "1.0",
+  "name": "Amazon BSR Scrapper",
+  "version": "1.0.1",
   "description": "Amazon best seller ranking data scrapping and parsing",
   "icons": {
     "128": "icons/icon-128.png",

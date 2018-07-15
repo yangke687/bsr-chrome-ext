@@ -6,6 +6,18 @@ body{
   padding-top: 10px;
 }
 
+.align-centered{
+ text-align: center;
+}
+
+.no-margin-left{
+  margin-left: 0px !important;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+}
 .spin-loading{
   padding-top: 80px;
   margin-bottom: -100px;

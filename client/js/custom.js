@@ -139,3 +139,13 @@ chrome.runtime.onMessage.addListener((msg) => {
     updateCompletedTasksCount(count+1);
   }
 });
+
+$(document).ready(function(){
+  /** loading manifest settings */
+  $.getJSON(chrome.extension.getURL('../manifest.json'), function(settings) {
+    const version = settings.version || '1.0.0';
+    const title = settings.name || 'Amazon Best Sellers Ranking Scrapper'
+    $('#footer-version').html(version);
+    $('#header-title').html(title);
+  });
+});
