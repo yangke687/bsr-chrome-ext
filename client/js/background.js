@@ -17,18 +17,22 @@ const callAllFetch = async(asins, baseUrl) => {
 }
 
 const callFetch = async (url) => {
+  const splits = url.split('/');
+  const asin = splits.slice(-1).pop();
   try {
     const res = await fetch(url, {
       method: 'GET',
     });
     const htmlText = await res.text();
-    const splits = url.split('/');
-    const asin = splits.slice(-1).pop();
     return callParse(htmlText, asin);
   } catch (err) {
     console.error(err);
   } finally {
-    chrome.runtime.sendMessage({ type: 'bsr-scrape', success: true }, () => null);
+    chrome.runtime.sendMessage({
+      type: 'bsr-scrape',
+      asin: asin,
+      success: true
+    }, () => null);
   }
 }
 

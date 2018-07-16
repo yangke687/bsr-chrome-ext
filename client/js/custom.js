@@ -95,6 +95,7 @@ $(document).ready(function(){
     const domain = $('select#amazon-domain').val();
     if(asins) {
       asins = asins.split(',');
+      updateAsinText('ASIN');
       updateCompletedTasksCount(0);
       updateTotalTasksCount(asins.length);
       loadingStart();
@@ -133,6 +134,10 @@ const getCompletedTasksCount = () => {
   return parseInt(count) ? parseInt(count) : 0;
 }
 
+const updateAsinText = (val) => {
+  $('#asin').html(val);
+}
+
 const updateCompletedTasksCount = (val) => {
   $('#completed').html(val);
 }
@@ -144,6 +149,7 @@ const updateTotalTasksCount = (val) => {
 chrome.runtime.onMessage.addListener((msg) => {
   if(msg.type === 'bsr-scrape' && msg.success) {
     let count = getCompletedTasksCount();
+    updateAsinText(msg.asin);
     updateCompletedTasksCount(count+1);
   }
 });
