@@ -118,7 +118,11 @@ $(document).ready(function(){
     let asins = $('input#asins').val();
     const domain = $('select#amazon-domain').val();
     if(asins) {
-      asins = asins.split(',');
+      asins = arraySplit(asins);
+      if(!asins) {
+        alert('Error, unrecognized ASINs string format');
+        return;
+      }
       updateAsinText('ASIN');
       updateCompletedTasksCount(0);
       updateTotalTasksCount(asins.length);
@@ -128,6 +132,18 @@ $(document).ready(function(){
     return false;
   })
 });
+
+const arraySplit = (str) => {
+  let commaPattern = /^(?:[^ ]{10},\s*)*[^ ]{10}$/;
+  let spacesPattern = /^\w{10}(?:\s|\s\w{10})*$/;
+  if( commaPattern.test(str) ) {
+    return str.split(',').map(el => el.trim());
+  }
+  if( spacesPattern.test(str) ) {
+    return str.split(' ').filter(el => el);
+  }
+  return false;
+}
 
 const getBaseUrl = (key) => {
   const urls = {
