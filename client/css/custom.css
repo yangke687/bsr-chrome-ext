@@ -6,6 +6,10 @@ body{
   padding-top: 10px;
 }
 
+table{
+  width: 100%;
+}
+
 .align-centered{
  text-align: center;
 }
@@ -17,6 +21,7 @@ body{
 .footer {
   display: flex;
   align-items: center;
+  z-index: -1;
 }
 
 #main{

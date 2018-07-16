@@ -24,6 +24,21 @@
  * amazon.in
  *  B00MEDZMJ0,B00SIWUU2A
  */
+
+const tableTpl = `
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>ASIN</th>
+        <th>Domain</th>
+        <th>Rank</th>
+        <th>Categories</th>
+      </tr>
+    </thead>
+    <tbody><!-- Dynamic --></tbody>
+  </table>
+`;
+
 const composeTable = (data, domain) => {
   let tpl = '';
   for(const id in data) {
@@ -58,7 +73,13 @@ const composeCSV = (data, domain) => {
 }
 
 const loadingStart = () => {
+  /** hide data table container */
+  $('.table-container').hide();
+  /** remove data table */
+  $('#DataTables_Table_0_wrapper').remove();
+
   $('.spin-loading').show();
+  /** disable download button */
   $('a#export-csv')
     .removeAttr('download')
     .attr('href','#')
@@ -68,6 +89,9 @@ const loadingStart = () => {
 
 const loadingEnd = (table, csv) => {
   $('.spin-loading').hide();
+  /** create table */
+  $('.table-container').html(tableTpl).show();
+  /** table load data */
   $('table').show().children('tbody').html(table);
   $('table').DataTable();
   if(csv) {
@@ -79,7 +103,7 @@ const loadingEnd = (table, csv) => {
 }
 
 const init = () => {
-  $('table').hide();
+  $('.table-container').hide();
   $('.spin-loading').hide();
   $('a#export-csv')
     .removeAttr('download')
