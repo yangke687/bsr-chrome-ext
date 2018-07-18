@@ -93,7 +93,9 @@ const loadingEnd = (table, csv) => {
   $('.table-container').html(tableTpl).show();
   /** table load data */
   $('table').show().children('tbody').html(table);
-  $('table').DataTable();
+  $('table').DataTable({
+    "pageLength": 100
+  });
   if(csv) {
     $('a#export-csv')
       .removeAttr('disabled')
