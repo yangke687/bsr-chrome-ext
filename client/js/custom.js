@@ -149,7 +149,7 @@ const arraySplit = (str) => {
 
 const getBaseUrl = (key) => {
   const urls = {
-    US: 'http://www.amazon.com/dp',
+    US: 'https://www.amazon.com/dp',
     Japan: 'https://www.amazon.co.jp/dp',
     UK: 'https://www.amazon.co.uk/dp',
     Canada: 'https://www.amazon.ca/dp',
