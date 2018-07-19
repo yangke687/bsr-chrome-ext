@@ -81,11 +81,13 @@ const topLineParse = (html, domain) => {
   if(topEl && $(topEl).length===1) {
     if($(topEl).is('li')) {
       topText = $(topEl).clone().children().remove().end().text();
+      topText = Boolean(topText) ? topText.trim() : '';
     }
 
     if($(topEl).is('tr')) {
       /** amazon.com.mx */
       topText = $(topEl).children('td').eq(1).clone().children().remove().end().text();
+      topText = Boolean(topText) ? topText.trim() : '';
     }
   } else if(lastTd && $(lastTd).length===1) {
     /** parse DOM without id */
@@ -94,7 +96,7 @@ const topLineParse = (html, domain) => {
   }
 
   /** parse top line text */
-  if(topText) {
+  if(Boolean(topText)) {
     topText = topText.replace('(','').replace(')','').trim();
     /** top line rank */
     let rank = topText.replace(/[^\d+]/g,'');
@@ -138,9 +140,9 @@ const rankingLinesParse = (html) => {
       if(i>0) {
         /** rank */
         let rank = $(el).clone().children().remove().end().text();
-        console.log(rank);
+        // console.log(rank);
         rank = rank ? rank.replace(/[^0-9]+/g, '') : null;
-        console.log(rank);
+        // console.log(rank);
         let cats = [];
         let links = $(el).find('a');
         if(links.length) {
