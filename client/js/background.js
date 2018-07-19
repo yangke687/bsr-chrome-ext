@@ -46,7 +46,7 @@ const callFetch = async (url) => {
       method: 'GET',
     });
     const htmlText = await res.text();
-    return callParse(htmlText, domain);
+    return callParse(htmlText, asin, domain);
   } catch (err) {
     console.error(err);
   } finally {
@@ -59,7 +59,6 @@ const callFetch = async (url) => {
 }
 
 const topTextParse = (topText, domain) => {
-  console.log(domain);
   switch(domain) {
     case 'Japan':
       return topText.split(' - ')[0].trim();
@@ -74,40 +73,44 @@ const topTextParse = (topText, domain) => {
 }
 
 const topLineParse = (html, domain) => {
-  const topEl = $(html).find('#SalesRank');
-
-  if(!$(topEl).length===1) return { rank: null, cats: [] };
-
   let topText = '';
-  if($(topEl).is('li')) {
-    topText = $(topEl).clone().children().remove().end().text();
+  const topEl = $(html).find('#SalesRank');
+  const lastTd = $(html).find('.prodDetSectionEntry').last().next();
+
+  /** parse DOM with id 'SalesRank' */
+  if(topEl && $(topEl).length===1) {
+    if($(topEl).is('li')) {
+      topText = $(topEl).clone().children().remove().end().text();
+    }
+
+    if($(topEl).is('tr')) {
+      /** amazon.com.mx */
+      topText = $(topEl).children('td').eq(1).clone().children().remove().end().text();
+    }
+  } else if(lastTd && $(lastTd).length===1) {
+    /** parse DOM without id */
+    const span = $(lastTd).children('span').children('span').first();
+    topText = $(span).clone().children().remove().end().text();
   }
 
-  if($(topEl).is('tr')) {
-    /** amazon.com.mx */
-    topText = $(topEl).children('td').eq(1).clone().children().remove().end().text();
+  /** parse top line text */
+  if(topText) {
+    topText = topText.replace('(','').replace(')','').trim();
+    /** top line rank */
+    let rank = topText.replace(/[^\d+]/g,'');
+    /** top line text */
+    topText = topTextParse(topText, domain);
+    let cats = Boolean(topText) ? [topText] : [];
+    return { rank: rank, cats: cats };
+  } else {
+    return { ranK: null, cats: [] };
   }
-
-  topText = topText.replace('(','').replace(')','').trim();
-  /** top line rank */
-  let rank = topText.replace(/[^\d+]/g,'');
-  /** top line text */
-  topText = topTextParse(topText, domain);
-  let cats = Boolean(topText) ? [topText] : [];
-
-  return { rank: rank, cats: cats };
 }
 
-const callParse = (text, asin) => {
-  const obj = { asin: asin, ranks: [] }
-  const html = $.parseHTML(text);
+const rankingLinesParse = (html) => {
+  let ret = [];
   const els = $(html).find('.zg_hrsr_item');
-
-  /** parse top line */
-  const { rank, cats } = topLineParse(html, asin);
-  if(rank && cats.length ) {
-    obj.ranks.push({ rank: rank, cats: cats });
-  }
+  const lastTd = $(html).find('.prodDetSectionEntry').last().next();
 
   if($(els).length) {
     $(els).each((i, el) => {
@@ -124,9 +127,53 @@ const callParse = (text, asin) => {
           cats.push(cat);
         })
       }
-      obj.ranks.push({ rank: rank, cats: cats })
+      ret.push({ rank: rank, cats: cats })
     })
   }
+
+  if(lastTd && $(lastTd).length===1) {
+    const spans =  $(lastTd).children('span').children('span');
+    $(spans).each((i, el) => {
+      /** skip top line */
+      if(i>0) {
+        /** rank */
+        let rank = $(el).clone().children().remove().end().text();
+        console.log(rank);
+        rank = rank ? rank.replace(/[^0-9]+/g, '') : null;
+        console.log(rank);
+        let cats = [];
+        let links = $(el).find('a');
+        if(links.length) {
+          $(links).each((j, lnk) => {
+            let cat = $(lnk).text();
+            cat = cat.replace(',','');
+            cats.push(cat);
+          })
+        }
+        ret.push({ rank: rank, cats: cats })
+      }
+    })
+  }
+
+  return ret;
+}
+
+const callParse = (text, asin, domain) => {
+  const obj = { asin: asin, ranks: [] }
+  const html = $.parseHTML(text);
+
+  /** parse top line */
+  const { rank, cats } = topLineParse(html, domain);
+  if(rank && cats.length ) {
+    obj.ranks.push({ rank: rank, cats: cats });
+  }
+
+  /** parse ranking lines */
+  const ranks = rankingLinesParse(html);
+  ranks.map((rank) => {
+    obj.ranks.push(rank);
+  });
+
   return obj;
 }
 
