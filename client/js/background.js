@@ -72,10 +72,23 @@ const topTextParse = (topText, domain) => {
   }
 }
 
+const findTd = (html) => {
+  let ret = null;
+  let ths =  $(html).find('.prodDetSectionEntry');
+  $(ths).each((i, th) => {
+    let td = $(th).next();
+    if( $(td).children().length === 1 && $(td).has('span').length ) {
+      ret = td;
+      return false;
+    }
+  })
+  return ret;
+}
+
 const topLineParse = (html, domain) => {
   let topText = '';
   const topEl = $(html).find('#SalesRank');
-  const lastTd = $(html).find('.prodDetSectionEntry').last().next();
+  const lastTd = findTd(html);
 
   /** parse DOM with id 'SalesRank' */
   if(topEl && $(topEl).length===1) {
@@ -112,7 +125,7 @@ const topLineParse = (html, domain) => {
 const rankingLinesParse = (html) => {
   let ret = [];
   const els = $(html).find('.zg_hrsr_item');
-  const lastTd = $(html).find('.prodDetSectionEntry').last().next();
+  const lastTd = findTd(html);
 
   if($(els).length) {
     $(els).each((i, el) => {
